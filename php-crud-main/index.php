@@ -11,7 +11,7 @@
 <body class="wallpaper">
     <div class="container my-4">
         <header class="d-flex justify-content-between my-4">
-            <h1>Book List</h1>
+            <h1 class="fw-bold">Book List</h1>
             <div>
                 <a href="create.php" class="btn btn-primary">Add New Book</a>
             </div>
@@ -54,7 +54,7 @@
         }
         ?>
         
-        <table class="table table-bordered">
+        <table class="table table-bordered opacity-75">
         <thead>
             <tr>
                 <th>#</th>

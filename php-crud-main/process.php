@@ -11,7 +11,7 @@
         if(mysqli_query($conn, $sqlInsert)) {
             session_start();
             $_SESSION["create"] = "Book added successfully!";
-            header("Location:../index.php");
+            header("Location:index.php");
         } else {
             die("Something went wrong");
         }
