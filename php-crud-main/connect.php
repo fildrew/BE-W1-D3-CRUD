@@ -13,6 +13,8 @@
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
     
+    $search = $_GET['search'] ?? '';
+
     try {
         $pdo = new PDO($dsn,$dbUser, $dbPass,$options);
 

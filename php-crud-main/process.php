@@ -37,4 +37,24 @@
             die("Something went wrong");
         }
     }
+
+    if (isset($_GET['search'])) {
+        $search = $_GET['search'] ?? '';
+        $type = $_POST["type"];
+        $author = $_POST["author"];
+
+        $sqlSelect = "SELECT* FROM books WHERE title LIKE ? OR description LIKE ? OR author LIKE ? OR type LIKE ? ";
+        $stmt = $pdo->prepare($sqlSelect);
+        $books = $stmt->fetchAll();
+        
+        if ($stmt->execute(["%$search%", "%$search%", "%$search%", "%$search%"])) {
+            session_start();
+            $_SESSION["search"] = "Search Sucessful!";
+            header("Location:search.php");
+            exit();
+        } else {
+            die("Something went wrong");
+        }
+        
+    }
 ?>

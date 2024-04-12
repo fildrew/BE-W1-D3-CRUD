@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,6 +15,14 @@
                 <a href="create.php" class="btn btn-primary shadow rounded-pill">Add New Book</a>
             </div>
         </header>
+     
+        <form class="d-flex" action="search.php" method="GET">
+            <div class="input-group mb-3 shadow">
+                <input type="search" name="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                <button class="btn btn-primary shadow" type="submit" id="button-addon2">Search</button>
+            </div>
+        </form>
+        
         <?php
         session_start();
         if (isset($_SESSION["create"])) {
@@ -53,6 +60,18 @@
         unset($_SESSION["delete"]);
         }
         ?>
+        <?php
+        if (isset($_SESSION["search"])) {
+        ?>
+        <div class="alert alert-success">
+            <?php 
+            echo $_SESSION["search"];
+            ?>
+        </div>
+        <?php
+        unset($_SESSION["search"]);
+        }
+        ?>
         
         <table class="table table-bordered opacity-75 shadow p-3 mb-5 bg-body rounded table-hover">
         <thead>
@@ -69,11 +88,10 @@
         <?php
         include('./connect.php');
         $sqlSelect = "SELECT * FROM books";
-
         $stmt = $pdo->prepare($sqlSelect);
         $stmt->execute();
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        
         foreach ($books as $data) {
             ?>
             <tr>
@@ -90,8 +108,58 @@
             <?php
         }
         ?>
+
+        <?php
+            include("connect.php");
+
+            if (isset($_GET['search'])) {
+                $search = $_GET['search'];
+                
+                // Prepare the SQL statement with placeholders
+                $sqlSelect = "SELECT * FROM books WHERE title LIKE ? OR description LIKE ? OR author LIKE ? OR type LIKE ?";
+                
+                // Prepare and execute the statement with wildcard search parameters
+                $stmt = $pdo->prepare($sqlSelect);
+                $stmt->execute(["%$search%", "%$search%", "%$search%", "%$search%"]);
+                
+                // Fetch the results
+                $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                if ($books) {
+                    foreach ($books as $data) {
+                        ?>
+                        <tr>
+                            <td><?php echo $data['id']; ?></td>
+                            <td><?php echo $data['title']; ?></td>
+                            <td><?php echo $data['author']; ?></td>
+                            <td><?php echo $data['type']; ?></td>
+                        </tr>
+                        
+                    <?php
+                    }
+                } else {
+                    echo "<h3>No books found</h3>";
+                }
+            }
+        ?> 
+
         </tbody>
         </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
