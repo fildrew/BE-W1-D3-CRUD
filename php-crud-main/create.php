@@ -13,18 +13,18 @@
     <header class="d-flex justify-content-between my-4">
             <h1>Add New Book</h1>
             <div>
-            <a href="index.php" class="btn btn-primary">Back</a>
+            <a href="index.php" class="btn btn-primary  shadow rounded-pill">Back</a>
             </div>
         </header>
         
         <form action="process.php" method="post">
-            <div class="form-elemnt my-4">
+            <div class="form-elemnt my-4 shadow">
                 <input type="text" class="form-control" name="title" placeholder="Book Title:">
             </div>
-            <div class="form-elemnt my-4">
+            <div class="form-elemnt my-4 shadow">
                 <input type="text" class="form-control" name="author" placeholder="Author Name:">
             </div>
-            <div class="form-elemnt my-4">
+            <div class="form-elemnt my-4 shadow">
                 <select name="type" id="" class="form-control">
                     <option value="">Select Book Type:</option>
                     <option value="Adventure">Adventure</option>
@@ -33,11 +33,11 @@
                     <option value="Horror">Horror</option>
                 </select>
             </div>
-            <div class="form-element my-4">
+            <div class="form-element my-4 shadow ">
                 <textarea name="description" id="" class="form-control" placeholder="Book Description:"></textarea>
             </div>
             <div class="form-element my-4">
-                <input type="submit" name="create" value="Add Book" class="btn btn-primary">
+                <input type="submit" name="create" value="Add Book" class="btn btn-primary  shadow rounded-pill">
             </div>
         </form>
         

@@ -13,7 +13,7 @@
         <header class="d-flex justify-content-between my-4">
             <h1 class="fw-bold">Book List</h1>
             <div>
-                <a href="create.php" class="btn btn-primary">Add New Book</a>
+                <a href="create.php" class="btn btn-primary shadow rounded-pill">Add New Book</a>
             </div>
         </header>
         <?php
@@ -54,7 +54,7 @@
         }
         ?>
         
-        <table class="table table-bordered opacity-75">
+        <table class="table table-bordered opacity-75 shadow p-3 mb-5 bg-body rounded table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -69,8 +69,12 @@
         <?php
         include('./connect.php');
         $sqlSelect = "SELECT * FROM books";
-        $result = mysqli_query($conn,$sqlSelect);
-        while($data = mysqli_fetch_array($result)){
+
+        $stmt = $pdo->prepare($sqlSelect);
+        $stmt->execute();
+        $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($books as $data) {
             ?>
             <tr>
                 <td><?php echo $data['id']; ?></td>
@@ -78,9 +82,9 @@
                 <td><?php echo $data['author']; ?></td>
                 <td><?php echo $data['type']; ?></td>
                 <td>
-                    <a href="view.php?id=<?php echo $data['id']; ?>" class="btn btn-info">Read More</a>
-                    <a href="edit.php?id=<?php echo $data['id']; ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger">Delete</a>
+                    <a href="view.php?id=<?php echo $data['id']; ?>" class="btn btn-info shadow rounded-pill">Read More</a>
+                    <a href="edit.php?id=<?php echo $data['id']; ?>" class="btn btn-warning shadow rounded-pill">Edit</a>
+                    <a href="delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger shadow rounded-pill">Delete</a>
                 </td>
             </tr>
             <?php

@@ -1,35 +1,40 @@
 <?php
     include('connect.php');
-    if (isset ($_POST["create"])) {
-        $title = mysqli_real_escape_string($conn,$_POST["title"]);
-        $author = mysqli_real_escape_string($conn,$_POST["author"]);
-        $type = mysqli_real_escape_string($conn,$_POST["type"]);
-        $description = mysqli_real_escape_string($conn,$_POST["description"]);
-        
-        $sqlInsert = "INSERT INTO books (title, author, type, description) VALUES ('$title', '$author', '$type', '$description')";
-        
-        if(mysqli_query($conn, $sqlInsert)) {
+
+    if (isset($_POST["create"])) {
+        $title = $_POST["title"];
+        $author = $_POST["author"];
+        $type = $_POST["type"];
+        $description = $_POST["description"];
+
+        $sqlInsert = "INSERT INTO books (title, author, type, description) VALUES (?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sqlInsert);
+        if ($stmt->execute([$title, $author, $type, $description])) {
             session_start();
             $_SESSION["create"] = "Book added successfully!";
             header("Location:index.php");
+            exit();
         } else {
             die("Something went wrong");
         }
     }
-    
-    if (isset ($_POST["edit"])) {
-        $title = mysqli_real_escape_string($conn, $_POST["title"]);
-    $type = mysqli_real_escape_string($conn, $_POST["type"]);
-    $author = mysqli_real_escape_string($conn, $_POST["author"]);
-    $description = mysqli_real_escape_string($conn, $_POST["description"]);
-    $id = mysqli_real_escape_string($conn, $_POST["id"]);
-    $sqlUpdate = "UPDATE books SET title = '$title', type = '$type', author = '$author', description = '$description' WHERE id='$id'";
-        if(mysqli_query($conn, $sqlUpdate)) {
+
+    if (isset($_POST["edit"])) {
+        $title = $_POST["title"];
+        $author = $_POST["author"];
+        $type = $_POST["type"];
+        $description = $_POST["description"];
+        $id = $_POST["id"];
+
+        $sqlUpdate = "UPDATE books SET title = ?, type = ?, author = ?, description = ? WHERE id = ?";
+        $stmt = $pdo->prepare($sqlUpdate);
+        if ($stmt->execute([$title, $type, $author, $description, $id])) {
             session_start();
             $_SESSION["update"] = "Book updated successfully!";
             header("Location:index.php");
+            exit();
         } else {
             die("Something went wrong");
         }
-    }        
+    }
 ?>

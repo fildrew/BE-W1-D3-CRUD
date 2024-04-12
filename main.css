@@ -1,10 +1,4 @@
-*{
-    font-family: 'Bricolage Grotesque', sans-serif;
-}
 
-h1, h2, h3, h4, h5, h6{
-    font-family: 'Bricolage Grotesque', sans-serif;
-}
 
 table  td, table th{
 vertical-align:middle;
@@ -23,3 +17,4 @@ padding:20px!important;
 .book-details{
     background-color:#f5f5f5;
 }
+

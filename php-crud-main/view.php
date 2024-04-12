@@ -10,34 +10,42 @@
 <body class="wallpaper">
     <div class="container my-4">
         <header class="d-flex justify-content-between my-4">
-            <h1>Book Details</h1>
+            <h1 class="fw-bold">Book Details</h1>
             <div>
-            <a href="index.php" class="btn btn-primary">Back</a>
+            <a href="index.php" class="btn btn-primary shadow rounded-pill">Back</a>
             </div>
         </header>
-        <div class="book-details p-5 my-4">
+        <div class="book-details p-5 my-4 shadow hover">
             <?php
             include("connect.php");
+
             $id = $_GET['id'];
+
             if ($id) {
-                $sql = "SELECT * FROM books WHERE id = $id";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_array($result)) {
+                $sql = "SELECT * FROM books WHERE id = ?";//or id=$id
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$id]);
+                $row = $stmt->fetch();
+
+               
+                if ($row) {    
                  ?>
                  <h3>Title:</h3>
-                 <p><?php echo $row["title"]; ?></p>
+                 <p class="font-monospace"><?php echo $row["title"]; ?></p>
                  <h3>Description:</h3>
-                 <p><?php echo $row["description"]; ?></p>
+                 <p class="font-monospace"><?php echo $row["description"]; ?></p>
                  <h3>Author:</h3>
-                 <p><?php echo $row["author"]; ?></p>
+                 <p class="font-monospace"><?php echo $row["author"]; ?></p>
                  <h3>Type:</h3>
-                 <p><?php echo $row["author"]; ?></p>
+                 <p class="font-monospace"><?php echo $row["type"]; ?></p>
                 
                  <?php
+                
+                }else{
+                    echo "<h3>No books found</h3>";
                 }
-            }
-            else{
-                echo "<h3>No books found</h3>";
+            } else {
+                echo "<h3>No book ID provided</h3>";
             }
             ?>
             

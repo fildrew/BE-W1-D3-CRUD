@@ -22,11 +22,13 @@
             if (isset($_GET['id'])) {
                 include("connect.php");
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM books WHERE id=$id";
-                $result = mysqli_query($conn,$sql);
-                $row = mysqli_fetch_array($result);
+                
+                $sql = "SELECT * FROM books WHERE id=?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$id]);
+                $row = $stmt->fetch();
                 ?>
-                     <div class="form-elemnt my-4">
+            <div class="form-elemnt my-4">
                 <input type="text" class="form-control" name="title" placeholder="Book Title:" value="<?php echo $row["title"]; ?>">
             </div>
             <div class="form-elemnt my-4">
@@ -58,4 +60,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
-
